@@ -28,4 +28,4 @@ class CreateUserResponseSchema(BaseModel):
     """
     Описание структуры ответа получения пользователя.
     """
-    user: list[UserSchema]
+    user: UserSchema

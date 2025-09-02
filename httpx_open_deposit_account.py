@@ -14,7 +14,7 @@ create_user_data = {
 
 create_user_response = client.post(url="/users", json=create_user_data)
 create_user_response_data = create_user_response.json()
-create_user_id = create_user_response_data['user']["id"]
+create_user_id = create_user_response_data['user']['id']
 
 open_deposit_account_data = {
     "userId": create_user_id

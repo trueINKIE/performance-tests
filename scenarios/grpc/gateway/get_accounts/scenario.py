@@ -3,6 +3,7 @@ from locust import task, User, between
 from clients.grpc.gateway.locust import GatewayGRPCTaskSet
 from contracts.services.accounts.rpc_get_accounts_pb2 import GetAccountsResponse
 from contracts.services.gateway.accounts.rpc_open_deposit_account_pb2 import OpenDepositAccountResponse
+from tools.locust.user import LocustBaseUser
 
 
 class GetAccountsTaskSet(GatewayGRPCTaskSet):
@@ -33,7 +34,5 @@ class GetAccountsTaskSet(GatewayGRPCTaskSet):
         )
 
 
-class GetAccountsScenarioUser(User):
-    host = "localhost"
+class GetAccountsScenarioUser(LocustBaseUser):
     tasks = [GetAccountsTaskSet]
-    wait_time = between(1, 3)

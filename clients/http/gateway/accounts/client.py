@@ -1,7 +1,7 @@
 from httpx import Response, QueryParams
 from locust.env import Environment
 
-from clients.http.client import HTTPClient, HTTPClientExtension
+from clients.http.client import HTTPClient, HTTPClientExtensions
 from clients.http.gateway.accounts.schema import (
     GetAccountsQuerySchema,
     GetAccountsResponseSchema,
@@ -18,6 +18,7 @@ from clients.http.gateway.client import (
     build_gateway_http_client,
     build_gateway_locust_http_client
 )
+from tools.routes import APIRoutes
 
 
 class AccountsGatewayHTTPClient(HTTPClient):
@@ -33,9 +34,9 @@ class AccountsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response с данными о счетах.
         """
         return self.get(
-            "/api/v1/accounts",
+            f"{APIRoutes.ACCOUNTS}",
             params=QueryParams(**query.model_dump(by_alias=True)),
-            extensions=HTTPClientExtension(route="/api/v1/accounts")
+            extensions=HTTPClientExtensions(route=APIRoutes.ACCOUNTS)
         )
 
     def open_deposit_account_api(self, request: OpenDepositAccountRequestSchema) -> Response:
@@ -46,7 +47,7 @@ class AccountsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response с результатом операции.
         """
         return self.post(
-            "/api/v1/accounts/open-deposit-account",
+            f"{APIRoutes.ACCOUNTS}/open-deposit-account",
             json=request.model_dump(by_alias=True)
         )
 
@@ -58,7 +59,7 @@ class AccountsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response.
         """
         return self.post(
-            "/api/v1/accounts/open-savings-account",
+            f"{APIRoutes.ACCOUNTS}/open-savings-account",
             json=request.model_dump(by_alias=True)
         )
 
@@ -70,7 +71,7 @@ class AccountsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response.
         """
         return self.post(
-            "/api/v1/accounts/open-debit-card-account",
+            f"{APIRoutes.ACCOUNTS}/open-debit-card-account",
             json=request.model_dump(by_alias=True)
         )
 
@@ -82,7 +83,7 @@ class AccountsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response.
         """
         return self.post(
-            "/api/v1/accounts/open-credit-card-account",
+            f"{APIRoutes.ACCOUNTS}/open-credit-card-account",
             json=request.model_dump(by_alias=True)
         )
 

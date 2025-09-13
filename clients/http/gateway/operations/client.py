@@ -1,7 +1,7 @@
 from httpx import QueryParams, Response
 from locust.env import Environment
 
-from clients.http.client import HTTPClient, HTTPClientExtension
+from clients.http.client import HTTPClient, HTTPClientExtensions
 from clients.http.gateway.client import build_gateway_http_client, build_gateway_locust_http_client
 from clients.http.gateway.operations.schema import GetOperationsQuerySchema, GetOperationsSummaryQuerySchema, \
     MakeOperationRequestSchema, MakePurchaseOperationRequestSchema, GetOperationResponseSchema, \
@@ -11,6 +11,7 @@ from clients.http.gateway.operations.schema import GetOperationsQuerySchema, Get
     MakeCashWithdrawalOperationResponseSchema, MakeCashWithdrawalOperationRequestSchema, \
     MakeBillPaymentOperationRequestSchema, MakeTransferOperationRequestSchema, MakeCashBackOperationRequestSchema, \
     MakeTopUpOperationRequestSchema, MakeFeeOperationRequestSchema
+from tools.routes import APIRoutes
 
 
 class OperationsGatewayHTTPClient(HTTPClient):
@@ -26,8 +27,8 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response с данными о счетах.
         """
         return self.get(
-            url=f"/api/v1/operations/{operation_id}",
-            extensions=HTTPClientExtension(route="/api/v1/operations/{operation_id}")
+            url=f"{APIRoutes.OPERATIONS}/{operation_id}",
+            extensions=HTTPClientExtensions(route=f"{APIRoutes.OPERATIONS}/{{operation_id}}")
         )
 
     def get_operation_receipt_api(self, operation_id: str) -> Response:
@@ -38,8 +39,8 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response с данными о счетах.
         """
         return self.get(
-            url=f"/api/v1/operations/operation-receipt/{operation_id}",
-            extensions=HTTPClientExtension(route="/api/v1/operations/operation-receipt/{operation_id}")
+            url=f"{APIRoutes.OPERATIONS}/operation-receipt/{operation_id}",
+            extensions=HTTPClientExtensions(route=f"{APIRoutes.OPERATIONS}/operation-receipt/{{operation_id}}")
         )
 
     def get_operations_api(self, query: GetOperationsQuerySchema) -> Response:
@@ -50,9 +51,9 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response с данными о счетах.
         """
         return self.get(
-            url="/api/v1/operations",
+            url=f"{APIRoutes.OPERATIONS}",
             params=QueryParams(**query.model_dump(by_alias=True)),
-            extensions=HTTPClientExtension(route="/api/v1/operations")
+            extensions=HTTPClientExtensions(route=f"{APIRoutes.OPERATIONS}")
         )
 
     def get_operations_summary_api(self, query: GetOperationsSummaryQuerySchema) -> Response:
@@ -63,9 +64,9 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :return: Объект httpx.Response с данными о счетах.
         """
         return self.get(
-            url="/api/v1/operations/operations-summary",
+            url=f"{APIRoutes.OPERATIONS}/operations-summary",
             params=QueryParams(**query.model_dump(by_alias=True)),
-            extensions=HTTPClientExtension(route="/api/v1/operations/operations-summary")
+            extensions=HTTPClientExtensions(route=f"{APIRoutes.OPERATIONS}/operations-summary")
         )
 
     def make_fee_operation_api(self, request: MakeOperationRequestSchema) -> Response:
@@ -75,7 +76,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param request: Словарь с параметрами запроса.
         :return: Объект httpx.Response.
         """
-        return self.post(url="/api/v1/operations/make-fee-operation", json=request.model_dump(by_alias=True))
+        return self.post(url=f"{APIRoutes.OPERATIONS}/make-fee-operation", json=request.model_dump(by_alias=True))
 
     def make_top_up_operation_api(self, request: MakeOperationRequestSchema) -> Response:
         """
@@ -84,7 +85,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param request: Словарь с параметрами запроса.
         :return: Объект httpx.Response.
         """
-        return self.post(url="/api/v1/operations/make-top-up-operation", json=request.model_dump(by_alias=True))
+        return self.post(url=f"{APIRoutes.OPERATIONS}/make-top-up-operation", json=request.model_dump(by_alias=True))
 
     def make_cashback_operation_api(self, request: MakeOperationRequestSchema) -> Response:
         """
@@ -93,7 +94,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param request: Словарь с параметрами запроса.
         :return: Объект httpx.Response.
         """
-        return self.post(url="/api/v1/operations/make-cashback-operation", json=request.model_dump(by_alias=True))
+        return self.post(url=f"{APIRoutes.OPERATIONS}/make-cashback-operation", json=request.model_dump(by_alias=True))
 
     def make_transfer_operation_api(self, request: MakeOperationRequestSchema) -> Response:
         """
@@ -102,7 +103,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param request: Словарь с параметрами запроса.
         :return: Объект httpx.Response.
         """
-        return self.post(url="/api/v1/operations/make-transfer-operation", json=request.model_dump(by_alias=True))
+        return self.post(url=f"{APIRoutes.OPERATIONS}/make-transfer-operation", json=request.model_dump(by_alias=True))
 
     def make_purchase_operation_api(self, request: MakePurchaseOperationRequestSchema) -> Response:
         """
@@ -111,7 +112,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param request: Словарь с параметрами запроса.
         :return: Объект httpx.Response.
         """
-        return self.post(url="/api/v1/operations/make-purchase-operation", json=request.model_dump(by_alias=True))
+        return self.post(url=f"{APIRoutes.OPERATIONS}/make-purchase-operation", json=request.model_dump(by_alias=True))
 
     def make_bill_payment_operation_api(self, request: MakeOperationRequestSchema) -> Response:
         """
@@ -120,7 +121,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param request: Словарь с параметрами запроса.
         :return: Объект httpx.Response.
         """
-        return self.post(url="/api/v1/operations/make-bill-payment-operation", json=request.model_dump(by_alias=True))
+        return self.post(url=f"{APIRoutes.OPERATIONS}/make-bill-payment-operation", json=request.model_dump(by_alias=True))
 
     def make_cash_withdrawal_operation_api(self, request: MakeOperationRequestSchema) -> Response:
         """
@@ -129,7 +130,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
         :param request: Словарь с параметрами запроса.
         :return: Объект httpx.Response.
         """
-        return self.post(url="/api/v1/operations/make-cash-withdrawal-operation", json=request.model_dump(by_alias=True))
+        return self.post(url=f"{APIRoutes.OPERATIONS}/make-cash-withdrawal-operation", json=request.model_dump(by_alias=True))
 
     def get_operation(self, operation_id: str) -> GetOperationResponseSchema:
         response = self.get_operation_api(operation_id=operation_id)

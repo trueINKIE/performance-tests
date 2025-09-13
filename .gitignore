@@ -3,7 +3,7 @@
 
 # python
 .venv
-__pycache__
+
 
 # locust
 dumps

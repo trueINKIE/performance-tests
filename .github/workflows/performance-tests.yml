@@ -92,14 +92,14 @@ jobs:
       - name: Verify downloaded files
         run: |
           echo "Содержимое папки reports:"
-          ls -la ./reports/
+          ls -la reports/
           echo "Содержимое подпапки ${{ github.run_id }}:"
-          ls -la ./reports/${{ github.run_id }}/
+          ls -la reports/${{ github.run_id }}/
 
       - name: Deploy HTML report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          keep_files: true
+          keep_files: false
           force_orphan: true
           publish_dir: ./reports/${{ github.run_id }}

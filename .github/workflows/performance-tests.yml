@@ -89,21 +89,10 @@ jobs:
           name: reports
           path: ./
 
-      - name: Check downloaded files structure
-        run: |
-          echo "Текущая рабочая директория:"
-          pwd
-          echo "Содержимое корневой директории:"
-          ls -la
-          echo "Содержимое папки reports (если существует):"
-          ls -la reports/ || echo "Папки reports нет в корне"
-          echo "Рекурсивный обход всех файлов и папок:"
-          find . -name "*.html" -o -name "*.htm" | head -20
-
       - name: Deploy HTML report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           keep_files: false
           force_orphan: true
-          publish_dir: ./reports/${{ github.run_id }}
+          publish_dir: ./${{ github.run_id }}

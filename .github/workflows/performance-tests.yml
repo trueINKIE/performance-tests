@@ -89,6 +89,11 @@ jobs:
           name: reports
           path: ./
 
+      - name: Prepare reports directory structure
+        run: |
+          mkdir -p ./reports
+          mv ${{ github.run_id }} ./reports/
+
       - name: Deploy HTML report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
